@@ -17,7 +17,7 @@ int main() {
         perror("execl failed");
         exit(1);
     } else {
-        //wait(NULL);
+        wait(NULL);
         printf("Parent process done\n");
     }
 

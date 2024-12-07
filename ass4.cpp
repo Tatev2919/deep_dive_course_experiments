@@ -13,11 +13,11 @@ int main() {
         perror("Fork failed");
         exit(1);
     } else if (pid == 0) {
-        execl("/bin/grep", "grep", "clock","test.txt", (char *)NULL);
+        execl("/bin/grep", "grep", "main","test.txt", (char *)NULL);
         perror("execl failed");
         exit(1);
     } else {
-        //wait(NULL);
+        wait(NULL);
         printf("Parent process done\n");
     }
 
