@@ -1,0 +1,10 @@
+First, compile the program with debugging information:
+
+g++ -g memory_test.cpp -o main
+
+Run Valgrind with the memory leak checker:
+
+valgrind --leak-check=full --show-leak-kinds=all ./main
+
+For detailed information run with option -s:
+valgrind --leak-check=full --show-leak-kinds=all -s ./main
