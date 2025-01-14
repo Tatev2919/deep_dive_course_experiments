@@ -76,18 +76,18 @@ int main() {
     std::cout << "---------------------" << std::endl;
     b.print();
 
-    std::cout << "Delete node 5" << std::endl;
+    std::cout << "Delete node 5 from main" << std::endl;
     b.remove(5);
     b.print();
 
 
-    std::cout << "BST mirroring iterative approach" << std::endl;
+    /*std::cout << "BST mirroring iterative approach" << std::endl;
     b.mirroring();
 
     b.print();
     std::cout << "BST mirroring recursive approach" << std::endl;
     b.mirroring_rec();
     std::cout << "---------------------" << std::endl;
-    b.print();
+    b.print();*/
     return 0;
 }

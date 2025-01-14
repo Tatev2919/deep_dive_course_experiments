@@ -194,10 +194,11 @@ bool bst<T>::remove(T value) {
     } else {
 	std::cout << "Node to be deleted has both children" << std::endl;
         Node<T>* min_r = find_min(tmp->right);
-        tmp->value = min_r->value;
+        T val  = min_r->value;
 
-        min_r->parent->left = nullptr;
-        delete min_r;	
+	remove(min_r->value);
+	tmp->value = val;
+
 	return true;
     }
 
@@ -271,4 +272,3 @@ void bst<T>::mirroring_rec() {
     mirroring_rec(root);    
     print_in_level_order(root);
 } 
-
