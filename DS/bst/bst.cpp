@@ -1,7 +1,8 @@
 #include <iostream>
 #include <limits>
 #include <queue>
-
+#include <stack>
+#include <vector>
 #include "utils.h"
 
 template <typename T>
@@ -21,6 +22,9 @@ private:
     void mirroring(Node<T>* tmp);
     void print_in_level_order(Node<T>* tmp);
     void mirroring_rec(Node<T>* tmp);
+    void bst_to_vec(Node<T>* tmp, std::vector<T>& vec);
+    Node<T>* batch_construction(const std::vector<int>& vec, int left, int right);
+    void print_pre_order(Node<T>* tmp);
 
 public:
     bst();
@@ -37,6 +41,9 @@ public:
     bool remove(T value);
     void mirroring();
     void mirroring_rec();
+
+    void batch_construction();
+    void print_pre_order();
     //void bst<T>::delete_tree(Node<T>* tmp);
 };
 
@@ -245,6 +252,29 @@ void bst<T>::print_in_level_order(Node<T>* tmp) {
 } 
 
 template <typename T>
+void bst<T>::print_pre_order(Node<T>* tmp) {
+    std::stack<Node<T>*> s;
+    s.push(tmp);
+
+    while(!s.empty()) {
+        Node<T>* curr = s.top();
+        s.pop();
+	std::cout << (curr->value) <<  " ";
+     
+        if (curr->right) s.push(curr->right);
+        if (curr->left)  s.push(curr->left);     
+    }    
+    std::cout << "\n";
+} 
+
+
+template <typename T>
+void bst<T>::print_pre_order() {
+    if (root == nullptr) return;
+
+    print_pre_order(root);
+}
+template <typename T>
 void bst<T>::mirroring() {
     if (root == nullptr) return;
 
@@ -272,3 +302,87 @@ void bst<T>::mirroring_rec() {
     mirroring_rec(root);    
     print_in_level_order(root);
 } 
+
+template <typename T> 
+void bst<T>::bst_to_vec(Node<T>* tmp, std::vector<T>& vec) {
+    if (tmp!=nullptr) {
+        bst_to_vec(tmp->left, vec);
+        vec.push_back(tmp->value);        
+	bst_to_vec(tmp->right, vec);
+    }
+}
+
+template <typename T>
+Node<T>* bst<T>::batch_construction(const std::vector<int>& vec, int left, int right) {
+    if (left > right) return nullptr;
+
+    int median_ind = left + (right - left) / 2;
+    int median = vec[median_ind];
+    Node<T>* t = new Node<T>(median);
+
+    t->left = batch_construction(vec, left, median_ind - 1);
+    t->right = batch_construction(vec, median_ind + 1, right);
+
+    if (t->left) t->left->parent = t;
+    if (t->right) t->right->parent = t;
+
+    std::cout << "Median is " << median << std::endl;
+    return t;
+}
+
+//Another approach of bacth construction. Not effective memory usage
+/*template <typename T>
+bst<T>* bst<T>::batch_construction(bst<T>* b1, std::vector<T>* vec) { 
+    int median_ind =  vec->size()/2;
+    T median_val = (*vec)[median_ind];
+    
+    if (median_ind != vec->size()) {
+        b1->insert(median_val);
+        std::vector<T> subvec1(vec->begin(), vec->begin() + median_ind);
+        std::vector<T> subvec2(vec->begin() + median_ind + 1, vec->end());
+        batch_construction(b1, &subvec1);
+        batch_construction(b1, &subvec2);
+    } 
+    return b1;
+
+}*/
+
+
+template <typename T>
+void bst<T>::batch_construction() {
+    if (root == nullptr) return;
+    std::vector<T> vec;
+    bst_to_vec(root,vec);
+
+    for (int value : vec) {
+        std::cout << value << " ";
+    }
+
+    Node<T>* r = batch_construction(vec, 0, vec.size()-1 );
+    std::cout << r->value << "r-> val" << std::endl;
+    print_in_level_order(r);
+    delete_tree(r); 
+    return;
+}
+
+
+/*template <typename T>
+T bst<T>::pre_val(Node* tmp) {
+    if ( tmp == root ) {
+        return -1;
+    } 
+    if ( tmp->left ) {
+	Node* t = tmp->left;
+
+	while (!t) {
+	   t = t->right;
+	}
+        return t->value;
+    } else if (tmp->left == nullptr && tmp->right == nullptr) {
+	// Needs to be correctedf
+        return tmp->parent;}
+    }
+
+
+}*/
+

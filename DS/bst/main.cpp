@@ -13,6 +13,7 @@ int main() {
     b.insert(29);
 
     std::cout << "Binary Search Tree created." << std::endl;
+    b.print_pre_order();
 
     b.print();
     std::cout << "Search the existing value 10: " << b.search(10)->value << std::endl;
@@ -89,5 +90,23 @@ int main() {
     b.mirroring_rec();
     std::cout << "---------------------" << std::endl;
     b.print();*/
+
+
+    std::cout << "---------------------" << std::endl;
+    std::cout << "---------------------" << std::endl;
+    
+    b.batch_construction();
+
+    std::cout << "    10" << std::endl;
+    std::cout << "   /   \\" << std::endl;
+    std::cout << "  6     15" << std::endl;
+    std::cout << " / \\   /  \\" << std::endl;
+    std::cout << "3   7 14  16" << std::endl;
+    std::cout << "     \\      \\" << std::endl;
+    std::cout << "      9      18" << std::endl;
+    
+
+    b.print();
+    b.print_pre_order();
     return 0;
 }
