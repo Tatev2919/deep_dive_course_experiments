@@ -82,18 +82,18 @@ int main() {
     b.print();
 
 
-    /*std::cout << "BST mirroring iterative approach" << std::endl;
+    std::cout << "BST mirroring iterative approach" << std::endl;
     b.mirroring();
 
     b.print();
     std::cout << "BST mirroring recursive approach" << std::endl;
     b.mirroring_rec();
     std::cout << "---------------------" << std::endl;
-    b.print();*/
+    b.print();
 
 
     std::cout << "---------------------" << std::endl;
-    std::cout << "---------------------" << std::endl;
+    std::cout << "--------Batch construction-------------" << std::endl;
     
     b.batch_construction();
 
@@ -106,7 +106,28 @@ int main() {
     std::cout << "      9      18" << std::endl;
     
 
-    b.print();
+    std::cout << "---------Traversal pre order------------" << std::endl;
     b.print_pre_order();
+    std::cout << "---------------------" << std::endl;
+
+    b.print();
+    std::cout << "---------------------" << std::endl;
+    try {
+       std::cout << b.pre_val(6) << " pre_val of 6" << std::endl;
+       std::cout << b.pre_val(7) << " pre_val of 7" << std::endl;
+       std::cout << b.pre_val(10) << " pre_val of 10" << std::endl;
+       std::cout << b.pre_val(9) <<  " pre_val of 9" << std::endl;
+       std::cout << b.pre_val(14) << " pre_val of 14" << std::endl;
+       std::cout << b.pre_val(15) << " pre_val of 15" << std::endl;
+       std::cout << b.pre_val(16) << " pre_val of 16" << std::endl;
+       std::cout << b.pre_val(18) << " pre_val of 18" << std::endl;
+       std::cout << b.pre_val(3) << " pre_val of 3" << std::endl;
+    } catch (...) {
+    
+    }
+
+    std::cout << "--------Balanceness_ratio-------------" << std::endl;
+    b.balanceness_ratio_calc();
+    std::cout << "---------------------" << std::endl;
     return 0;
 }

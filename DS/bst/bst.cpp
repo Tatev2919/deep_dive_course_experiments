@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits>
+#include <climits>
 #include <queue>
 #include <stack>
 #include <vector>
@@ -25,6 +26,7 @@ private:
     void bst_to_vec(Node<T>* tmp, std::vector<T>& vec);
     Node<T>* batch_construction(const std::vector<int>& vec, int left, int right);
     void print_pre_order(Node<T>* tmp);
+    float balanceness_ratio_calc(Node<T>* tmp);
 
 public:
     bst();
@@ -44,6 +46,8 @@ public:
 
     void batch_construction();
     void print_pre_order();
+    T    pre_val(T val);
+    float  balanceness_ratio_calc();
     //void bst<T>::delete_tree(Node<T>* tmp);
 };
 
@@ -366,23 +370,72 @@ void bst<T>::batch_construction() {
 }
 
 
-/*template <typename T>
-T bst<T>::pre_val(Node* tmp) {
-    if ( tmp == root ) {
-        return -1;
-    } 
-    if ( tmp->left ) {
-	Node* t = tmp->left;
+template <typename T>
+T bst<T>::pre_val(T val) {
+    std::cout << "Val is " << val << std::endl;
+    if ( root == nullptr ) throw std::invalid_argument("Tree is empty or invalid node");
+    Node<T>* tmp = search(val);
+    
+    if (tmp->left) {
+	tmp = tmp->left;
 
-	while (!t) {
-	   t = t->right;
+	while (tmp->right!=nullptr) {
+	   tmp = tmp->right;
 	}
-        return t->value;
-    } else if (tmp->left == nullptr && tmp->right == nullptr) {
-	// Needs to be correctedf
-        return tmp->parent;}
+
+        return tmp->value;
+	
+    } else {
+	while (tmp->parent!= nullptr && tmp != tmp->parent->right) {
+	    tmp = tmp->parent;
+	}
+	if (tmp->parent == nullptr) throw std::runtime_error("This node has no predecessor.");
+	return tmp->parent->value;
     }
+    return 0;
+
+}
+
+template <typename T> 
+float bst<T>::balanceness_ratio_calc(Node<T>* tmp) {
+    std::queue<Node<T>*> q;
+    int min_depth = INT_MAX;
+    int max_depth = INT_MIN;
+
+    q.push(tmp);
+    while (!q.empty()) {
+        Node<T>* n = q.front();
+        q.pop();
+
+	if (n->left!=nullptr) {
+	    q.push(n->left);
+	} 
+	if (n->right!=nullptr) {
+	    q.push(n->right);
+	}
+
+	if(n->right==nullptr && n->left == nullptr) {
+
+	    int depth = 0;
+            Node<T>* t = n;
+	    while(t->parent != nullptr) {
+	        ++depth;
+		t = t->parent;
+	    }
+	    if (min_depth > depth) min_depth = depth;
+	    if (max_depth < depth) max_depth = depth;
+	}
+    }
+    
+    std::cout << (float)min_depth/max_depth << "  the ratio is " << std::endl;
+    return (float)min_depth/max_depth;
+
+}
 
 
-}*/
-
+template <typename T> 
+float bst<T>::balanceness_ratio_calc() {
+    if (root == nullptr) return 0;
+    
+    return balanceness_ratio_calc(root);
+}
