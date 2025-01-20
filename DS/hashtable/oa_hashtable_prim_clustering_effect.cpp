@@ -176,56 +176,42 @@ public:
         }
     }
 
-
-    void print_all_runs(int ind = 0, int m = 0) {
-	if (ind == vec.size() - 1) return;
+    //Recursive approach caused Seg fault
+    void print_all_runs() {
+        int m = 0;
         int sum = 0;
-	
-	while (vec[ind].empty()) {
-	    ++ind;
-	} 
 
-	while (!vec[ind].empty()){
-            ++ind;
-	    ++sum;
+        for (size_t ind = 0; ind < vec.size(); ++ind) {
+            if (!vec[ind].empty()) {
+                ++sum; 
+            } else if (sum > 0) {
+                m += sum;
+                std::cout << "Index is: " << ind << " Run is: " << sum << " Monitor: " << m << std::endl;
+                sum = 0; 
+            }
+        }
+
+        if (sum > 0) {
+            m += sum;
+            std::cout << "Index is: " << vec.size() << " Run is: " << sum << " Monitor: " << m << std::endl;
+        }
+    }
+
+
+    void prim_clustering_monitoring() {
+        for (const auto& s: vec) {
+	    if (s.empty()) std::cout<< "*"; 
+	    else std::cout << " ";
 	}
-	m +=sum;
-	std::cout << " Index is : " << ind << " Run is : " << sum << "  Monitor : "  << m << std::endl;
-	print_all_runs(ind, m);
+	std::cout << "\n";
     }
 
-    void remove(const std::string& s) {
-        int h = search(s);
-        if (h == -1) {
-            std::cout << "Element not found, cannot remove." << std::endl;
-            return;
-        }
 
-        bool in_orig_vec = vec[h] == s;
-        std::cout << "Removing element: " << s << " from " << (in_orig_vec ? "vec" : "vec1") << " at index " << h << std::endl;
-
-        if (in_orig_vec) {
-            vec[h].clear();
-            --length;
-            int i = (h + 1) % vec.size();
-            while (!vec[i].empty()) {
-                std::string temp = vec[i];
-                vec[i].clear();
-                insert(vec, temp);
-                i = (i + 1) % vec.size();
-            }
-        } else {
-            vec1[h].clear();
-            --length1;
-            int i = (h + 1) % vec1.size();
-            while (!vec1[i].empty()) {
-                std::string temp = vec1[i];
-                vec1[i].clear();
-                insert(vec1, temp);
-                i = (i + 1) % vec1.size();
-            }
-        }
-    }
+    
+    /* normal_rehash();
+    lazy_rehash();
+    
+    remove;*/
 
 };
 
@@ -250,34 +236,16 @@ int simple_hashing(const std::string& s) {
 int main() {
     std::vector<std::string> strings;
 
-    for (int i = 1; i <= 20; ++i) {
+    for (int i = 1; i <= 350; ++i) {
         strings.push_back("String_" + std::to_string(i));
     }
 
-    for (int i = 1; i <= 20; ++i) {
-        strings.push_back("Strign_" + std::to_string(i));
-    }
-
-    Hash_table h1(60, example_hashing);
+    Hash_table h1(500, example_hashing);
 
 
     for (const auto& str : strings) {
 	std::cout << "--------------------------" << std::endl;
         h1.insert(str);
-	std::cout << "--------------------------" << std::endl;
-	std::cout << "--------------------------" << std::endl;
-	std::cout << "--------------------------" << std::endl;
-	if (str == "String_20") {
-            h1.print();
-	    h1.remove(str);
-            h1.print();
-	}
-	if (str == "Strign_18") {
-            std::cout << "index val in vec is " << h1.search(str) << std::endl;
-	    h1.remove("Strign_14");
-	}
-
-
     }
 
 
@@ -286,9 +254,14 @@ int main() {
     std::cout << "Load factor is : " << h1.calc_load_factor() << std::endl;
 
 
-    std::cout << "Hash Table search value :" << std::endl;
-    std::cout << "index val in vec is " << h1.search("String_16") << std::endl;
+    //std::cout << "Hash Table search value :" << std::endl;
+    //std::cout << "index val in vec is " << h1.search("String_16") << std::endl;
 
-    h1.print_all_runs();
+    //h1.print_all_runs();
+    
+    h1.prim_clustering_monitoring();  
+
+
     return 0;
 }
+
