@@ -60,7 +60,7 @@ int main() {
     
     int capacity = 7;
 
-    std::vector<int> vals = {0, 2, 2, 4, 5, 3};
+    std::vector<int> vals = {0, 20, 20, 40, 50, 30};
     std::vector<int> weights = {0, 3, 1, 3, 4, 2};
 
     int items = vals.size();

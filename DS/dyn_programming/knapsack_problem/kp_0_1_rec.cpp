@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 
-
+int cnt = 0;
 void print(const std::vector<std::vector<int>>& arr) {
     for (const auto& row : arr) {
         for (size_t j = 0; j < row.size(); ++j) {
@@ -36,11 +36,14 @@ void get_selected_items(std::vector<std::vector<int>> & mem , std::vector<int>& 
 
 int calc_knapsack_val( int capacity, std::vector<int>& vals, std::vector<int>& weights, int n,std::vector<std::vector<int>>& memArray) {
 
+    
     if (n == 0 || capacity == 0) {
         return 0; 
     }
    
     if (memArray[n][capacity] != -1) return memArray[n][capacity]; 
+    std::cout << "N times: " << cnt << std::endl;
+    cnt++;
 
     if (weights[n] > capacity) {
 	
@@ -62,7 +65,7 @@ int main() {
     
     int capacity = 7;
 
-    std::vector<int> vals = {0, 2, 2, 4, 5, 3};
+    std::vector<int> vals = {0, 20, 20, 40, 50, 30};
     std::vector<int> weights = {0, 3, 1, 3, 4, 2};
     int items = vals.size();
 
